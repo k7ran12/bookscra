@@ -2,7 +2,7 @@ const express = require('express');
 const puppeteer = require('puppeteer');
 
 const app = express();
-const port = 3000; // Puedes cambiar el puerto según tus necesidades
+const port = 3000;
 
 app.use(express.json());
 
@@ -10,16 +10,16 @@ const scrap = async (searchQuery) => {
     let browser;
 
     try {
-        const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] });
+        browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] });
         const page = await browser.newPage();
-        const search = encodeURIComponent(searchQuery);
-        await page.goto(`https://www.google.com.pe/search?q="${search}" filetype%3Apdf`);
-
-        /*await page.evaluate(() => {
-            window.scrollBy(0, 1500);
-        });*/
-
-        await page.waitForTimeout(1000);
+        
+        const filtro = "filetype:pdf";
+        const consultaCodificada = encodeURIComponent(searchQuery);
+        const filtroCodificado = encodeURIComponent(filtro);
+        const url = `https://duckduckgo.com/?t=h_&q="${consultaCodificada}"+${filtroCodificado}&ia=web`;
+        
+        await page.goto(url);
+        await page.waitForTimeout(5000); // Esperar 5 segundos (puedes ajustar este valor)
 
         const pdfLinks = await page.$$eval('a', (as) =>
             as.map((a) => a.href).filter((href) => href.endsWith('.pdf'))
