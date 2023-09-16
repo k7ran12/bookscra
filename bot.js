@@ -10,7 +10,7 @@ const scrap = async (searchQuery) => {
     let browser;
 
     try {
-        browser = await puppeteer.launch({ headless: true });
+        const browser = await puppeteer.launch({ headless: true, args: ['--no-sandbox'] });
         const page = await browser.newPage();
         const search = encodeURIComponent(searchQuery);
         await page.goto(`https://www.google.com.pe/search?q="${search}" filetype%3Apdf`);
