@@ -51,6 +51,6 @@ app.post('/api/search', async (req, res) => {
     res.json({ pdfLinks });
 });
 
-app.listen(port, () => {
-    console.log(`Servidor Express escuchando en el puerto ${port}`);
+app.listen(port, '0.0.0.0', () => {
+    console.log(`Servidor Node.js en ejecución en http://0.0.0.0:${port}`);
 });
